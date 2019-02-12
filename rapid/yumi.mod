@@ -37,14 +37,6 @@ MODULE IKSolver
     TPWrite "Connected to IP "+clientIP;
   ENDPROC
 
-  PROC receiveMsg()
-    SocketReceive clientSocket \Str:=msg;
-  ENDPROC
-
-  PROC sendMsg()
-    SocketSend clientSocket \Str:=msg;
-  ENDPROC
-
   PROC parseMsg()
     VAR bool auxOk;
     VAR num ind := 1;
@@ -81,12 +73,14 @@ MODULE IKSolver
 
     ! Infinite loop
     WHILE TRUE DO
-      receiveMsg; ! Receive message
+      SocketReceive clientSocket \Str:=msg; ! Receive message
       parseMsg; ! Parse message and get params
 
       ! 7 parameters expected (position + quaternion)
       IF nParams <> 7 THEN
         ok := 2;
+      ELSEIF Abs(1.0-Sqrt(params{4}*params{4}+params{5}*params{5}+params{6}*params{6}+params{7}*params{7})) > 0.001 THEN
+        ok := 0;
       ELSE
         ! Current pose to get current external axis used for IK
         currentPose := CRobT(\Tool:=currentTool \WObj:=currentWobj);
@@ -109,8 +103,9 @@ MODULE IKSolver
       msg := msg+NumToStr(ikResult.robax.rax_3,2)+" ";
       msg := msg+NumToStr(ikResult.robax.rax_4,2)+" ";
       msg := msg+NumToStr(ikResult.robax.rax_5,2)+" ";
-      msg := msg+NumToStr(ikResult.robax.rax_6,2)+ByteToStr(10\Char);
-      sendMsg;
+      msg := msg+NumToStr(ikResult.robax.rax_6,2)+" ";
+      msg := msg+NumToStr(ikResult.extax.eax_a,2)+ByteToStr(10\Char);
+      SocketSend clientSocket \Str:=msg;
     ENDWHILE
   ERROR (LONG_JMP_ALL_ERR)
     IF ERRNO = ERR_SOCK_CLOSED THEN
