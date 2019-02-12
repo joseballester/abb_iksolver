@@ -1,0 +1,4 @@
+<launch>
+    <rosparam command="load" file="$(find abb_ik)/param/example.yaml"/>
+    <node pkg="abb_ik" type="abb_ik" name="abb_ik1" output="screen" args="1" />
+</launch>

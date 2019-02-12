@@ -1,0 +1,24 @@
+robot1: {
+  # Number of joints
+  joints: 7,
+
+  # Robot tool frame
+  # See tooldata RAPID documentation, 3.66, page 1208
+  toolQ0: 1.0, toolQX: 0.0, toolQY: 0.0, toolQZ: 0.0,
+  toolX: 0.0, toolY: 0.0, toolZ: 0.0,
+
+  # Robot tool inertia
+  # See tooldata RAPID documentation, 3.66, page 1209-10
+  toolMass: 0.1,
+  toolCGX: -0.1, toolCGY: 8.3, toolCGZ: 310.4,
+  toolIX: 0.023, toolIY: 0.02, toolIZ: 0.036,
+
+  # Robot work object frame
+  # See wobjdata RAPID documentation, 3.75, page 1224-25
+  workobjectQ0: 1, workobjectQX: 0, workobjectQY: 0, workobjectQZ: 0,
+  workobjectX: 0, workobjectY: 0, workobjectZ: 0,
+
+  # Connection parameters
+  ip: 192.168.0.191,
+  port: 5000
+}
