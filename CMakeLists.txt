@@ -32,5 +32,5 @@ add_executable(abb_iksolver
 )
 
 target_include_directories(abb_iksolver PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(abb_isolverk ${catkin_LIBRARIES})
+target_link_libraries(abb_iksolver ${catkin_LIBRARIES})
 add_dependencies(abb_iksolver abb_iksolver_generate_messages_cpp)
