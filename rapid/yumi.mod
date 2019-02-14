@@ -5,7 +5,6 @@ MODULE IKSolver
 
   ! Frames
   PERS tooldata currentTool;
-  PERS wobjdata currentWobj;
 
   ! Communication variables (TCP)
   VAR socketdev serverSocket;
@@ -83,7 +82,7 @@ MODULE IKSolver
         ok := 0;
       ELSE
         ! Current pose to get current external axis used for IK
-        currentPose := CRobT(\Tool:=currentTool \WObj:=currentWobj);
+        currentPose := CRobT();
 
         ! Prepare target pose, including external axis angle
         cartesianPose := [[params{1},params{2},params{3}],
@@ -93,7 +92,7 @@ MODULE IKSolver
 
         ! Compute IK result
         ok := 1;
-        ikResult := CalcJointT(cartesianPose,currentTool,\WObj:=currentWobj);
+        ikResult := CalcJointT(cartesianPose,currentTool);
       ENDIF
 
       ! Prepare response to client and send message
